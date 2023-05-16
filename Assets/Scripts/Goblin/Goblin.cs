@@ -16,6 +16,7 @@ public class Goblin : MonoBehaviour
     [SerializeField] private float speed;
     private Rigidbody2D goblin;
     private float placeholder;
+    private Vector2[] firstPath;
 
 
     // Start is called before the first frame update
@@ -23,6 +24,7 @@ public class Goblin : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         goblin = GetComponent<Rigidbody2D>();
+        //firstPath = { new Vector2(0.1342627, -0.05592072), new Vector2(0.12, -0.02), new Vector2(0.1127807, 0.08939966), new Vector2(0.06440747, 0.0869829), new Vector2(0.03006224, 0.108017), new Vector2(0.01395575, 0.1015587), new Vector2(0.004965395, 0.0939185)};
     }
     // Update is called once per frame
     void Update()
