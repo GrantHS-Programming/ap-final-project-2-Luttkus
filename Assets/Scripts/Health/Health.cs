@@ -10,6 +10,7 @@ public class Health : MonoBehaviour
     Animator anim;
     Rigidbody2D rd;
     PolygonCollider2D poly;
+    private bool isDead;
 
     private void Awake()
     {
@@ -30,9 +31,16 @@ public class Health : MonoBehaviour
             anim.SetTrigger("die");
             rd.gravityScale = 0;
             poly.enabled = false;
-            rd.constraints = RigidbodyConstraints2D.FreezePosition;
+            rd.constraints = RigidbodyConstraints2D.FreezePositionX;
+            rd.constraints = RigidbodyConstraints2D.FreezePositionY;
+            rd.constraints = RigidbodyConstraints2D.FreezeRotation;
             //rd.constraints = RigidbodyConstraints2D.FreezeScale;
+            isDead = true;
         }
 
+    }
+    public bool IsDead()
+    {
+        return isDead;
     }
 }

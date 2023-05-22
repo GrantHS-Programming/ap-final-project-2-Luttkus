@@ -12,6 +12,7 @@ public class Goblin : MonoBehaviour
     private float cooldownTimer = Mathf.Infinity;
     Animator anim;
     private Health playerHealth;
+    private Health myHealth;
     private float direction = 1f;
     [SerializeField] private float speed;
     private Rigidbody2D goblin;
@@ -67,6 +68,7 @@ public class Goblin : MonoBehaviour
      new Vector2(-0.07797024f, -0.1122241f),
      new Vector2(-0.06779173f, -0.03950243f),
     };
+    [SerializeField] private PolygonCollider2D target;
 
 
     // Start is called before the first frame update
@@ -74,6 +76,7 @@ public class Goblin : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         goblin = GetComponent<Rigidbody2D>();
+        myHealth = GetComponent<Health>();
         polyCollider.enabled = false;
         polyCollider.pathCount = 1;
         polyCollider.SetPath(0, firstPath);
@@ -82,16 +85,43 @@ public class Goblin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
+        Vector3 diff = (target.transform.position - transform.position);
+        if (diff.x > 0)
+        {
+            direction = 1f;
+        }
+        else
+        {
+            direction = -1f;
+        }
+        if (direction > 0f && !myHealth.IsDead())
+        {
+            goblin.velocity = new Vector2(direction * speed, goblin.velocity.y);
+            transform.localScale = new Vector2(3f, 3f);
+        }
+        if (direction < 0f && !myHealth.IsDead())
+        {
+            goblin.velocity = new Vector2(direction * speed, goblin.velocity.y);
+            transform.localScale = new Vector2(-3f, 3f);
+        }
+        if (diff.y > 0 && !myHealth.IsDead())
+        {
+            goblin.velocity = new Vector2(direction * speed, 7f);
+        }
         //Attacks
         //hit.transform.GetComponent<Animator>().IsPlaying(MartialHeroAttack);
-        cooldownTimer += Time.deltaTime;
+            cooldownTimer += Time.deltaTime;
         if (PlayerInSight1())
         {
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0;
                 anim.SetTrigger("Attacking1");
+                anim.SetTrigger("Attacking");
+                polyCollider.enabled = false;
+                polyCollider.pathCount = 1;
+                polyCollider.SetPath(0, backpath);
+                polyCollider.enabled = true;
             }
         }
         else if (PlayerInSight())
@@ -99,11 +129,6 @@ public class Goblin : MonoBehaviour
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0;
-                anim.SetTrigger("Attacking");
-                polyCollider.enabled = false;
-                polyCollider.pathCount = 1;
-                polyCollider.SetPath(0, backpath);
-                polyCollider.enabled = true;
             }
         }
         //animation

@@ -12,6 +12,7 @@ public class MushroomScript : MonoBehaviour
     [SerializeField] private PolygonCollider2D target;
     private float cooldownTimer = Mathf.Infinity;
     Animator anim;
+    private Health myHealth;
     private Health playerHealth;
     [SerializeField] private float speed;
     private Rigidbody2D mushroom;
@@ -21,6 +22,7 @@ public class MushroomScript : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         mushroom = GetComponent<Rigidbody2D>();
+        myHealth = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -36,12 +38,12 @@ public class MushroomScript : MonoBehaviour
         {
             direction = -1f;
         }
-        if (direction > 0f)
+        if (direction > 0f && !myHealth.IsDead())
         {
             mushroom.velocity = new Vector2(direction * speed, mushroom.velocity.y);
             transform.localScale = new Vector2(3f, 3f);
         }
-        if (direction < 0f)
+        if (direction < 0f && !myHealth.IsDead())
         {
             mushroom.velocity = new Vector2(direction * speed, mushroom.velocity.y);
             transform.localScale = new Vector2(-3f, 3f);

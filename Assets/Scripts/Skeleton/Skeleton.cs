@@ -11,6 +11,7 @@ public class Skeleton : MonoBehaviour
     [SerializeField] private LayerMask playerLayer;
     private float cooldownTimer = Mathf.Infinity;
     Animator anim;
+    private Health myHealth;
     private Health playerHealth;
     private float direction = 1f;
     [SerializeField] private float speed;
@@ -23,6 +24,7 @@ public class Skeleton : MonoBehaviour
     {
         anim = GetComponent<Animator>();
         skeleton = GetComponent<Rigidbody2D>();
+        myHealth = GetComponent<Health>();
     }
 
     // Update is called once per frame
@@ -33,12 +35,12 @@ public class Skeleton : MonoBehaviour
         {
             direction *= -1f;
         }
-        if (direction > 0f)
+        if (direction > 0f && !myHealth.IsDead())
         {
             skeleton.velocity = new Vector2(direction * speed, skeleton.velocity.y);
             transform.localScale = new Vector2(2f, 2f);
         }
-        if (direction < 0f)
+        if (direction < 0f && !myHealth.IsDead())
         {
             skeleton.velocity = new Vector2(direction * speed, skeleton.velocity.y);
             transform.localScale = new Vector2(-2f, 2f);
