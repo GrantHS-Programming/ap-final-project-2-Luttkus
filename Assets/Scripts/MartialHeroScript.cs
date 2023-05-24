@@ -17,6 +17,8 @@ public class MartialHeroScript : MonoBehaviour
     [SerializeField] private PolygonCollider2D polyCollider;
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float range;
+    private float cooldownTimer = Mathf.Infinity;
+    [SerializeField] private float attackCooldown;
     // Start is called before the first frame update
     void Start()
     {

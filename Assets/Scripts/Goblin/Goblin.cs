@@ -117,7 +117,7 @@ public class Goblin : MonoBehaviour
             {
                 cooldownTimer = 0;
                 anim.SetTrigger("Attacking1");
-                anim.SetTrigger("Attacking");
+                
                 polyCollider.enabled = false;
                 polyCollider.pathCount = 1;
                 polyCollider.SetPath(0, backpath);
@@ -129,6 +129,7 @@ public class Goblin : MonoBehaviour
             if (cooldownTimer >= attackCooldown)
             {
                 cooldownTimer = 0;
+                anim.SetTrigger("Attacking");
             }
         }
         //animation
@@ -136,7 +137,7 @@ public class Goblin : MonoBehaviour
     }
     private bool PlayerInSight()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.3f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.2f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
         return hit.collider != null;
     }
     private bool PlayerInSight1()
@@ -146,7 +147,7 @@ public class Goblin : MonoBehaviour
     }
     private bool PlayerInSight2()
     {
-        RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.6f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
+        RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.5f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
         return hit.collider != null;
     }
     private void OnDrawGizmos()
@@ -158,7 +159,7 @@ public class Goblin : MonoBehaviour
     {
         if (PlayerInSight())
         {
-            RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.3f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
+            RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.2f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
             playerHealth = hit.transform.GetComponent<Health>();
             playerHealth.TakeDamage(damage);
         }
@@ -167,7 +168,7 @@ public class Goblin : MonoBehaviour
     {
         if (PlayerInSight2())
         {
-            RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.6f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
+            RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.5f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
             playerHealth = hit.transform.GetComponent<Health>();
             playerHealth.TakeDamage(damage);
         }
