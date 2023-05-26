@@ -18,6 +18,7 @@ public class MartialHeroScript : MonoBehaviour
     [SerializeField] private LayerMask enemyLayer;
     [SerializeField] private float range;
     private float cooldownTimer = Mathf.Infinity;
+    private float cooldownTimer2 = Mathf.Infinity;
     [SerializeField] private float attackCooldown;
     // Start is called before the first frame update
     void Start()
@@ -42,20 +43,22 @@ public class MartialHeroScript : MonoBehaviour
             transform.localScale = new Vector2(-2f, 2f);
         }
 
-
+        cooldownTimer += Time.deltaTime;
+        cooldownTimer2 += Time.deltaTime;
         if (Input.GetKeyDown("up") && isTouchingGround)
         {
             martialhero.velocity = new Vector2(martialhero.velocity.x, 5);
         }
-        if (Input.GetKeyDown("x")) ;
+        if (Input.GetKeyDown("x") && cooldownTimer > attackCooldown) 
         {
-            isAttaking1 = true;
+            cooldownTimer = 0;
+            martialHeroAnimation.SetTrigger("Attacking");
         }
-        if (Input.GetKeyUp("x"))
+        if (Input.GetKeyDown("c") && cooldownTimer2 > 0.75f)
         {
-            isAttaking1 = false;
+            cooldownTimer2 = 0;
+            martialHeroAnimation.SetTrigger("Blocking");
         }
-        martialHeroAnimation.SetBool("IsAttacking1", !isAttaking1);
         martialHeroAnimation.SetFloat("Speed", Mathf.Abs(martialhero.velocity.x));
         martialHeroAnimation.SetBool("OnGround", isTouchingGround);
     }

@@ -76,8 +76,15 @@ public class MushroomScript : MonoBehaviour
         if (PlayerInSight())
         {
             RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * range * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
-            playerHealth = hit.transform.GetComponent<Health>();
-            playerHealth.TakeDamage(damage);
+            if (hit.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MartialHeroBlock"))
+            {
+                cooldownTimer = -1;
+            }
+            else
+            {
+                playerHealth = hit.transform.GetComponent<Health>();
+                playerHealth.TakeDamage(damage);
+            }
         }
     }
 }

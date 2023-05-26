@@ -104,7 +104,7 @@ public class Goblin : MonoBehaviour
             goblin.velocity = new Vector2(direction * speed, goblin.velocity.y);
             transform.localScale = new Vector2(-3f, 3f);
         }
-        if (diff.y > 0 && !myHealth.IsDead())
+        if (goblin.velocity == new Vector2(0,0) && !myHealth.IsDead())
         {
             goblin.velocity = new Vector2(direction * speed, 7f);
         }
@@ -160,8 +160,15 @@ public class Goblin : MonoBehaviour
         if (PlayerInSight())
         {
             RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.2f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
-            playerHealth = hit.transform.GetComponent<Health>();
-            playerHealth.TakeDamage(damage);
+            if (hit.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MartialHeroBlock"))
+            {
+                cooldownTimer = -1;
+            }
+            else
+            {
+                playerHealth = hit.transform.GetComponent<Health>();
+                playerHealth.TakeDamage(damage);
+            }  
         }
     }
     private void DamagePlayer1()
@@ -169,8 +176,15 @@ public class Goblin : MonoBehaviour
         if (PlayerInSight2())
         {
             RaycastHit2D hit = Physics2D.BoxCast(polyCollider.bounds.center + transform.right * 0.5f * transform.localScale.x, polyCollider.bounds.size, 0, Vector2.left, 0, playerLayer);
-            playerHealth = hit.transform.GetComponent<Health>();
-            playerHealth.TakeDamage(damage);
+            if (hit.transform.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("MartialHeroBlock"))
+            {
+                cooldownTimer = -1;
+            }
+            else
+            {
+                playerHealth = hit.transform.GetComponent<Health>();
+                playerHealth.TakeDamage(damage);
+            }
         }
     }
     private void ReturntToFrontpath()

@@ -225,7 +225,7 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 128
   range: 0.58
-  attackCooldown: 0.5
+  attackCooldown: 1
 --- !u!114 &567557345975572321
 MonoBehaviour:
   m_ObjectHideFlags: 0
