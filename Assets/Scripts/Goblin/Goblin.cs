@@ -69,7 +69,14 @@ public class Goblin : MonoBehaviour
      new Vector2(-0.06779173f, -0.03950243f),
     };
     [SerializeField] private PolygonCollider2D target;
-
+    private Vector2 pos;
+    private Vector2 pos1;
+    public Transform groundCheck;
+    public float groundCheckRadius;
+    public LayerMask groundLayer;
+    bool isTouchingGround;
+    private float Timer = Mathf.Infinity;
+    [SerializeField] private float Cooldown;
 
     // Start is called before the first frame update
     void Start()
@@ -85,6 +92,8 @@ public class Goblin : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
+        isTouchingGround = Physics2D.OverlapCircle(groundCheck.position, groundCheckRadius, groundLayer);
+        pos1 = transform.position;
         Vector3 diff = (target.transform.position - transform.position);
         if (diff.x > 0)
         {
@@ -104,13 +113,20 @@ public class Goblin : MonoBehaviour
             goblin.velocity = new Vector2(direction * speed, goblin.velocity.y);
             transform.localScale = new Vector2(-3f, 3f);
         }
-        if (goblin.velocity == new Vector2(0,0) && !myHealth.IsDead())
+        if (pos1 == pos && !myHealth.IsDead() && isTouchingGround)
         {
             goblin.velocity = new Vector2(direction * speed, 7f);
         }
+        
         //Attacks
         //hit.transform.GetComponent<Animator>().IsPlaying(MartialHeroAttack);
-            cooldownTimer += Time.deltaTime;
+        cooldownTimer += Time.deltaTime;
+        Timer += Time.deltaTime;
+        if (Timer > Cooldown)
+        {
+            Timer = 0;
+            pos = transform.position;
+        }
         if (PlayerInSight1())
         {
             if (cooldownTimer >= attackCooldown)
@@ -134,6 +150,7 @@ public class Goblin : MonoBehaviour
         }
         //animation
         anim.SetFloat("Speed", Mathf.Abs(goblin.velocity.x));
+
     }
     private bool PlayerInSight()
     {
