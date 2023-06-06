@@ -11,6 +11,7 @@ public class Health : MonoBehaviour
     Rigidbody2D rd;
     PolygonCollider2D poly;
     private bool isDead;
+    public FinishScript finishScript;
 
     private void Awake()
     {
@@ -35,6 +36,7 @@ public class Health : MonoBehaviour
             rd.constraints = RigidbodyConstraints2D.FreezePositionY;
             rd.constraints = RigidbodyConstraints2D.FreezeRotation;
             //rd.constraints = RigidbodyConstraints2D.FreezeScale;
+            finishScript.KilledOpponent(gameObject);
             isDead = true;
         }
 
