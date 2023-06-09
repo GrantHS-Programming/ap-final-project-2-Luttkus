@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class FinishScript : MonoBehaviour
 {
     List<GameObject> listOfOpponents = new List<GameObject>();
+    public LevelChanger fade;
     // Start is called before the first frame update
     void Start()
     {
@@ -20,9 +21,10 @@ public class FinishScript : MonoBehaviour
             {
                 // They are dead!
                 Invoke("CompleteLevel", 1);
+                fade.FadeToLevel();
             }
             
-            //add delay and fade to blaxk
+            //fade to black
             
         }
     }
